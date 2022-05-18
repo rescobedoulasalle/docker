@@ -400,10 +400,13 @@
 
 ## EJERCICIOS PROPUESTOS
 
--   Realice los cambios necesarios para que la imagen que ud creo a partir de un contenedor personalizado se pueda acceder al servidor web desde el equipo anfitríon.
+-   1. Realice los cambios necesarios para que la imagen que ud creo a partir de un contenedor personalizado se pueda acceder al servidor web desde el equipo anfitríon.
     ```sh
     docker run -p 8088:80 rcd22image
     ```
+-   2. Crear dos contenedores que puedan comunicarse: ping.
+
+-   3. Investigar acerca de la ejecución de programas con interfaz gráfica dentro de contenedores Docker.
 
 #
 
