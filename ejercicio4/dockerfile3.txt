@@ -1,0 +1,29 @@
+FROM ubuntu:20.04
+
+ENV DEBIAN_FRONTEND=noninteractive 
+ENV TZ=America/Lima
+
+RUN apt-get update
+RUN apt-get install -y apache2
+RUN apt-get install -y perl
+RUN apt-get clean
+RUN ln -fs /usr/share/zoneinfo/$TZ /etc/localtime
+RUN dpkg-reconfigure -f noninteractive tzdata
+RUN rm -rf /var/lib/apt/lists/*
+
+RUN a2enmod cgid
+RUN service apache2 restart
+
+COPY ./hola.pl /usr/lib/cgi-bin
+RUN chmod +x /usr/lib/cgi-bin/hola.pl
+
+EXPOSE 80
+CMD ["apachectl", "-D", "FOREGROUND"]
+
+# docker build -f dockerfile3.txt -t iubuntu1 .
+# docker run -d -p 8182:80 --name cubuntu1 iubuntu1
+# docker stop cubuntu1
+# docker start cubuntu1
+# docker exec -it cubuntu1 /bin/bash
+# docker rm cubuntu1
+# docker rmi iubuntu1

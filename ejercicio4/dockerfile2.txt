@@ -1,0 +1,26 @@
+FROM bitnami/minideb
+
+ENV DEBIAN_FRONTEND="noninteractive" 
+
+RUN apt-get update
+RUN apt-get install -y apache2
+RUN apt-get install -y perl
+RUN apt-get clean
+RUN rm -rf /var/lib/apt/lists/*
+
+RUN a2enmod cgid
+RUN service apache2 restart
+
+COPY ./hola.pl /usr/lib/cgi-bin
+RUN chmod +x /usr/lib/cgi-bin/hola.pl
+
+EXPOSE 80
+CMD ["apachectl", "-D", "FOREGROUND"]
+
+# docker build -f dockerfile2.txt -t iminideb2 .
+# docker run -d -p 8181:80 --name cminideb2 iminideb2
+# docker stop cminideb2
+# docker start cminideb2
+# docker exec -it cminideb2 /bin/bash
+# docker rm cminideb2
+# docker rmi iminideb2

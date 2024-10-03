@@ -1,0 +1,49 @@
+FROM bitnami/minideb
+
+ENV DEBIAN_FRONTEND="noninteractive" 
+
+RUN apt-get update
+RUN apt-get install -y apache2
+RUN apt-get install -y perl
+RUN apt-get install -y openssh-server
+RUN apt -y install systemctl
+
+RUN mkdir -p /home/pweb
+RUN useradd pweb -m && echo "pweb:12345678" | chpasswd
+#RUN useradd pweb -m -p 12345678
+#RUN chown pweb:pweb /home/pweb
+#RUN chmod 770 /home/pweb
+RUN chown pweb:www-data /usr/lib/cgi-bin/
+RUN chown pweb:www-data /var/www/html/
+RUN chmod 750 /usr/lib/cgi-bin/
+RUN chmod 750 /var/www/html/
+RUN ln -s /usr/lib/cgi-bin /home/pweb/cgi-bin
+RUN ln -s /var/www/html/ /home/pweb/html
+RUN apt-get clean
+RUN rm -rf /var/lib/apt/lists/*
+
+RUN a2enmod cgid
+RUN service apache2 restart
+
+RUN systemctl enable ssh
+#RUN service ssh start
+
+COPY ./hola.pl /usr/lib/cgi-bin
+RUN chmod +x /usr/lib/cgi-bin/hola.pl
+
+RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+
+
+EXPOSE 80
+EXPOSE 22
+
+#CMD ["apachectl", "-D", "FOREGROUND"]
+CMD ["bash", "-c", "service ssh start && apachectl -D FOREGROUND"]
+
+# docker build -f dockerfile4.txt -t iminideb4 .
+# docker run -d -p 8183:80 -p 2201:22 --name cminideb4 iminideb4
+# docker stop cminideb4
+# docker start cminideb4
+# docker exec -it cminideb4 /bin/bash
+# docker rm cminideb4
+# docker rmi iminideb4
