@@ -11,6 +11,7 @@ RUN apt -y install vim
 RUN apt -y install bash
 RUN apt-get install -y locales
 RUN apt-get install -y tree
+RUN apt-get install -y libcgi-pm-perl
 
 RUN apt-get install -y locales
 
