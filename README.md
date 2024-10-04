@@ -1,8 +1,7 @@
 <div align="center">
 <table>
     <theader>
-        <tr>
-            <th><img src="https://github.com/rescobedoulasalle/git_github/blob/main/ulasalle.png?raw=true" alt="EPIS" style="width:50%; height:auto"/></th>
+        <tr>            
             <th>                
                 <span style="font-weight:bold;">DOCKER</span>
             </th>            
