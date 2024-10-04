@@ -1,0 +1,3 @@
+Bienvenido a la Programación Web.
+Este es un archivo de texto.
+Script en Perl.

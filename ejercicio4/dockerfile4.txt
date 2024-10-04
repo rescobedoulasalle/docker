@@ -9,19 +9,39 @@ RUN apt-get install -y openssh-server
 RUN apt -y install systemctl
 RUN apt -y install vim
 RUN apt -y install bash
+RUN apt-get install -y locales
+RUN apt-get install -y tree
+
+RUN apt-get install -y locales
+
+RUN echo -e 'LANG=es_PE.UTF-8\nLC_ALL=es_PE.UTF-8' > /etc/default/locale
+
+RUN sed -i 's/^# *\(es_PE.UTF-8\)/\1/' /etc/locale.gen
+
+RUN /sbin/locale-gen es_PE.UTF-8
 
 RUN mkdir -p /home/pweb
 RUN useradd pweb -m && echo "pweb:12345678" | chpasswd
 RUN echo "root:12345678" | chpasswd
-#RUN useradd pweb -m -p 12345678
-#RUN chown pweb:pweb /home/pweb
-#RUN chmod 770 /home/pweb
 RUN chown pweb:www-data /usr/lib/cgi-bin/
 RUN chown pweb:www-data /var/www/html/
 RUN chmod 750 /usr/lib/cgi-bin/
 RUN chmod 750 /var/www/html/
+
+RUN echo "export LC_ALL=es_PE.UTF-8" >> /home/pweb/.bashrc
+RUN echo "export LANG=es_PE.UTF-8" >> /home/pweb/.bashrc
+RUN echo "export LANGUAGE=es_PE.UTF-8" >> /home/pweb/.bashrc
+
 RUN ln -s /usr/lib/cgi-bin /home/pweb/cgi-bin
 RUN ln -s /var/www/html/ /home/pweb/html
+
+RUN ln -s /home/pweb /usr/lib/cgi-bin/toHOME
+RUN ln -s /home/pweb /var/www/html/toHOME
+
+RUN mkdir -p /home/pweb/scripts
+
+RUN chown pweb:pweb -R /home/pweb/scripts
+
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/*
 
@@ -31,11 +51,12 @@ RUN service apache2 restart
 RUN systemctl enable ssh
 #RUN service ssh start
 
-COPY ./hola.pl /usr/lib/cgi-bin
-RUN chmod +x /usr/lib/cgi-bin/hola.pl
+COPY ./scripts/* /home/pweb/scripts/.
+
+COPY ./cgi-bin/cgi01.pl /usr/lib/cgi-bin
+RUN chmod +x /usr/lib/cgi-bin/cgi01.pl
 
 RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
-
 
 EXPOSE 80
 EXPOSE 22
@@ -50,3 +71,11 @@ CMD ["bash", "-c", "service ssh start && apachectl -D FOREGROUND"]
 # docker exec -it cminideb4 /bin/bash
 # docker rm cminideb4
 # docker rmi iminideb4
+
+# http://127.0.0.1:8183/
+# http://127.0.0.1:8183/cgi-bin/cgi01.pl
+
+# ssh -p 2201 pweb@127.0.0.1 -t bash
+# cd $HOME/scripts
+# perl script01.pl
+
