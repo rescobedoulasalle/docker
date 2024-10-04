@@ -3,11 +3,8 @@
     <theader>
         <tr>
             <th><img src="https://github.com/rescobedoulasalle/git_github/blob/main/ulasalle.png?raw=true" alt="EPIS" style="width:50%; height:auto"/></th>
-            <th>
-                <span style="font-weight:bold;">UNIVERSIDAD LA SALLE</span><br />
-                <span style="font-weight:bold;">FACULTAD DE INGENIERÍAS</span><br />
-                <span style="font-weight:bold;">DEPARTAMENTO DE INGENIERÍA Y MATEMÁTICAS</span><br />
-                <span style="font-weight:bold;">CARRERA PROFESIONAL DE INGENIERÍA DE SOFTWARE</span>
+            <th>                
+                <span style="font-weight:bold;">DOCKER</span>
             </th>            
         </tr>
     </theader>
@@ -40,9 +37,9 @@
     </ul>
 </td>
 </<tr>
-<tr><td colspan="2">DOCENTES:
+<tr><td colspan="2">INSTRUCTOR:
     <ul>
-        <li>Richart Smith Escobedo Quispe  - r.escobedo@ulasalle.edu.pe</li>
+        <li>Richart Smith Escobedo Quispe</li>
     </ul>
 </td>
 </<tr>
