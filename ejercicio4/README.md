@@ -10,6 +10,7 @@ docker run -d -p 8183:80 -p 2201:22 --name cminideb4 iminideb4
 
 ```sh
 docker stop cminideb4
+```
 
 ```sh
 docker start cminideb4
@@ -37,6 +38,7 @@ http://127.0.0.1:8183/cgi-bin/cgi01.pl
 
 ```sh
 ssh -p 2201 pweb@127.0.0.1 -t bash
+password:12345678
 ```
 
 ```sh
