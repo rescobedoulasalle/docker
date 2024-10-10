@@ -1,0 +1,76 @@
+FROM bitnami/minideb
+
+ENV DEBIAN_FRONTEND="noninteractive" 
+
+RUN apt-get update
+RUN apt-get install -y apache2
+RUN apt-get install -y perl
+RUN apt-get install -y openssh-server
+RUN apt -y install systemctl
+RUN apt -y install vim
+RUN apt -y install bash
+RUN apt-get install -y locales
+RUN apt-get install -y tree
+RUN apt-get install -y libcgi-pm-perl
+
+RUN apt-get install -y locales
+
+RUN echo -e 'LANG=es_PE.UTF-8\nLC_ALL=es_PE.UTF-8' > /etc/default/locale
+
+RUN sed -i 's/^# *\(es_PE.UTF-8\)/\1/' /etc/locale.gen
+
+RUN /sbin/locale-gen es_PE.UTF-8
+
+RUN mkdir -p /home/pweb
+RUN useradd pweb -m && echo "pweb:12345678" | chpasswd
+RUN echo "root:12345678" | chpasswd
+RUN chown pweb:www-data /usr/lib/cgi-bin/
+RUN chown pweb:www-data /var/www/html/
+RUN chmod 750 /usr/lib/cgi-bin/
+RUN chmod 750 /var/www/html/
+
+RUN echo "export LC_ALL=es_PE.UTF-8" >> /home/pweb/.bashrc
+RUN echo "export LANG=es_PE.UTF-8" >> /home/pweb/.bashrc
+RUN echo "export LANGUAGE=es_PE.UTF-8" >> /home/pweb/.bashrc
+
+RUN ln -s /usr/lib/cgi-bin /home/pweb/cgi-bin
+RUN ln -s /var/www/html/ /home/pweb/html
+
+RUN ln -s /home/pweb /usr/lib/cgi-bin/toHOME
+RUN ln -s /home/pweb /var/www/html/toHOME
+
+RUN apt-get clean
+RUN rm -rf /var/lib/apt/lists/*
+
+RUN a2enmod cgid
+RUN service apache2 restart
+
+RUN systemctl enable ssh
+#RUN service ssh start
+
+COPY ./cgi-bin/formulario.pl /usr/lib/cgi-bin
+RUN chmod +x /usr/lib/cgi-bin/formulario.pl
+
+COPY ./html/index.html /var/www/html
+
+RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+
+EXPOSE 80
+EXPOSE 22
+
+#CMD ["apachectl", "-D", "FOREGROUND"]
+CMD ["bash", "-c", "service ssh start && apachectl -D FOREGROUND"]
+
+# docker build -f dockerfile5.txt -t iminideb5 .
+# docker run -d -p 8184:80 -p 2202:22 --name cminideb5 iminideb5
+# docker stop cminideb5
+# docker start cminideb5
+# docker exec -it cminideb5 /bin/bash
+# docker rm cminideb5
+# docker rmi iminideb5
+
+# http://127.0.0.1:8184/
+
+# ssh -p 2202 pweb@127.0.0.1 -t bash
+
+
