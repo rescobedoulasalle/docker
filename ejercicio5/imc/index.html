@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<title>LAB 00 - IMC</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="css/mystyle.css">
+</head>
+<body>
+
+	<div class="header">
+	  <h2>Laboratorio # 00: Html, Css y Cgi Perl</h2>
+	  <p class="description">Formulario html donde se puede ingresar estatura y peso, para enviar los a través del método get hacia un cgi perl que calcula el índice de masa corporal.</p>
+	</div>
+	
+	<div class="content">
+	
+		<div class="container">
+			<form action="cgi-bin/imc.pl" method="get">
+			<fieldset>
+				<legend>Índice de masa corporal:</legend>
+				<div class="row">
+					<div class="col-25">
+						<label for="tall">Estatura:</label>
+					</div>
+					<div class="col-75">
+						<input type="text" id="tall" name='tall' placeholder="Estatura en centímetros. Ejemplo: 170" value="170">
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-25">
+						<label for="weight">Peso:</label>
+					</div>
+					<div class="col-75">
+						<input type="text" id="weight" name='weight' placeholder="Peso en kilogramos. Ejemplo: 89" value="89">
+					</div>
+				</div>
+				<br>
+				<div class="row">
+					<input type="submit" value="Calcular IMC">
+				</div>
+			</fieldset>
+			</form>
+		</div>
+		
+		
+		<p class="footer links">
+			
+			<a href="https://validator.w3.org/#validate_by_input" class="image-link" target="_blank">
+    			<img style="border:0;width:88px;height:31px"
+        			src="img/W3C_HTML5_certified.png"
+        		alt="Markup Validation" />
+    		</a>
+			<a href="https://jigsaw.w3.org/css-validator/#validate_by_input" class="image-link" target="_blank">
+    			<img style="border:0;width:88px;height:31px"
+        			src="img/Valid_CSS_(blue).svg.png"
+        		alt="CSS Validation" />
+    		</a>
+    		<a href="https://www.w3.org/WAI/test-evaluate/tools/list/" class="image-link" target="_blank">
+    			<img style="border:0;width:88px;height:31px"
+        			src="img/wcag2.2AAA-blue.png"
+        		alt="Web Accessibility" />
+    		</a>
+    	</p>
+		
+		<footer class="footer">		
+	  	Escobedo Quispe, Richart Smith &copy; 2024/10/18 - Programación Web Lab. Grupo Z.	  		
+		</footer>
+		
+	</div>
+	
+</body>
+</html>
+

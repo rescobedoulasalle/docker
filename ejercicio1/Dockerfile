@@ -10,6 +10,7 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+RUN rm /var/www/html/index.html
 
 COPY . /var/www/html
 # Exponer el puerto 80 para el servidor web
